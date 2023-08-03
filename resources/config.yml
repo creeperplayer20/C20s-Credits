@@ -1,0 +1,57 @@
+#  ██████╗██████╗ ███████╗██████╗ ██╗████████╗███████╗
+# ██╔════╝██╔══██╗██╔════╝██╔══██╗██║╚══██╔══╝██╔════╝
+# ██║     ██████╔╝█████╗  ██║  ██║██║   ██║   ███████╗
+# ██║     ██╔══██╗██╔══╝  ██║  ██║██║   ██║   ╚════██║
+# ╚██████╗██║  ██║███████╗██████╔╝██║   ██║   ███████║
+#  ╚═════╝╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝   ╚═╝   ╚══════╝
+#                               by creeperplayer20
+#                                                   
+# This is the config file for the plugin. You can change the values to your liking.
+# If you want to use the default values, you can delete this file.
+#
+# {credits} = will be replaced with the amount of credits.
+#
+# {player} = will be replaced with the player's name.
+#
+# § = color code. Use §r to reset the color.
+# \n = Use it to create a new line.
+#
+# Note that this plugin is an API for other plugins to use!
+# 
+prefix: "§r§f•[§gCredits§f] §r"
+
+# Default credits when a player joins the server for the first time
+default-credits: 100
+
+# Add
+credits-add-message: "§aYou have received §6{credits} §acredit§f(§as§f)!"
+credits-add-broadcast: true
+
+credits-add-issuer-message: "§aSuccessfully added §6{credits} §acredit§f(§as§f) §ato §e{player}§f!"
+credits-add-issuer-broadcast: true
+
+# Reduce
+credits-reduce-message: "§cYou have lost §6{credits} §ccredit§f(§cs§f)!"
+credits-reduce-broadcast: true
+
+credits-reduce-issuer-message: "§aSuccessfully reduced §6{credits} §acredit§f(§as§f) §afrom §e{player}§f!"
+credits-reduce-issuer-broadcast: true
+
+# Set
+credits-set-message: "§aYour credits have been set to §6{credits} §acredit§f(§as§f)!"
+credits-set-broadcast: true
+
+credits-set-issuer-message: "§aSuccessfully set §e{player}§f'§es§a credits to §6{credits} §acredit§f(§as§f)!"
+credits-set-issuer-broadcast: true
+
+# Reset
+credits-reset-message: "§e{player}§c your credits have been reset§f!"
+credits-reset-broadcast: true
+
+credits-reset-issuer-message: "§aSuccessfully reset §e{player}§f'§es§a credits§f!"
+credits-reset-issuer-broadcast: true
+
+# Check
+credits-check-message: "§aYou have §6{credits} §acredit§f(§as§f)!"
+
+credits-check-other-message: "§e{player}§a has §6{credits} §acredit§f(§as§f)!"
