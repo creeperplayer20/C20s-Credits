@@ -39,10 +39,7 @@ class CreditsCommand extends Command
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): bool
     {
-        if(!$sender->hasPermission("c20s-credits.use")) {
-            $sender->sendMessage($this->getPermissionMessage());
-            return true;
-        }
+        if(!$sender->checkForPermission($sender, "c20s-credits.use")) return false;
 
         if(empty($args)) {
             $sender->sendMessage($this->functions->getPrefix() . "§cUsage: /credits <check|add|reduce|set|reset|reload>");
@@ -51,28 +48,28 @@ class CreditsCommand extends Command
 
         switch($args[0]) {
             case "check":
-                if(!$sender->hasPermission("c20s-credits.check")) {
-                    $sender->sendMessage($this->getPermissionMessage());
-                    return false;
-                }
+                if(!$sender->checkForPermission($sender, "c20s-credits.check")) return false;
 
                 if(!isset($args[1])) {
-                    $sender->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-check-message"), ["{credits}" => (string)$this->manager->getCredits($sender->getName())]));
+                    $sender->sendMessage($this->functions->replace(
+                        $this->functions->getConfigValue("credits-check-message"), 
+                        ["{credits}" => (string)$this->manager->getCredits($sender->getName())])
+                    );
                     return true;
                 }
                 
                 if($this->functions->checkIfPlayerExists($args[1])) {
-                    $sender->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-check-other-message"), ["{credits}" => (string)$this->manager->getCredits($args[1]), "{player}" => $args[1]]));
+                    $sender->sendMessage($this->functions->replace(
+                        $this->functions->getConfigValue("credits-check-other-message"), 
+                        ["{credits}" => (string)$this->manager->getCredits($args[1]), "{player}" => $args[1]])
+                    );
                     return true;
                 }
 
                 $sender->sendMessage($this->functions->getPrefix() . "§cPlayer not found§f!");
             return false;
             case "add":
-                if(!$sender->hasPermission("c20s-credits.add")) {
-                    $sender->sendMessage($this->getPermissionMessage());
-                    return false;
-                }
+                if(!$sender->checkForPermission($sender, "c20s-credits.add")) return false;
 
                 if(!isset($args[1]) || !isset($args[2])) {
                     $sender->sendMessage($this->functions->getPrefix() . "§cUsage: /credits add <player> <amount>");
@@ -90,17 +87,18 @@ class CreditsCommand extends Command
                 }
 
                 if($this->manager->addCredits($args[1], (int)$args[2])) {
-                    if($this->functions->getConfigValue("credits-add-issuer-broadcast")) $sender->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-add-issuer-message"), ["{player}" => $args[1], "{credits}" => (string)$args[2]]));
+                    if($this->functions->getConfigValue("credits-add-issuer-broadcast")) 
+                        $sender->sendMessage($this->functions->replace(
+                            $this->functions->getConfigValue("credits-add-issuer-message"), 
+                            ["{player}" => $args[1], "{credits}" => (string)$args[2]])
+                        );
                     return true;
                 }
 
                 $sender->sendMessage($this->functions->getPrefix() . "§cPlayer not found§f!");
             return false;
             case "reduce":
-                if(!$sender->hasPermission("c20s-credits.reduce")) {
-                    $sender->sendMessage($this->getPermissionMessage());
-                    return false;
-                }
+                if(!$sender->checkForPermission($sender, "c20s-credits.reduce")) return false;
 
                 if(!isset($args[1]) || !isset($args[2])) {
                     $sender->sendMessage($this->functions->getPrefix() . "§cUsage: /credits reduce <player> <amount>");
@@ -118,17 +116,18 @@ class CreditsCommand extends Command
                 }
 
                 if($this->manager->reduceCredits($args[1], (int)$args[2])) {
-                    if($this->functions->getConfigValue("credits-reduce-issuer-broadcast")) $sender->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-reduce-issuer-message"), ["{player}" => $args[1], "{credits}" => (string)$args[2]]));
+                    if($this->functions->getConfigValue("credits-reduce-issuer-broadcast")) 
+                        $sender->sendMessage($this->functions->replace(
+                            $this->functions->getConfigValue("credits-reduce-issuer-message"), 
+                            ["{player}" => $args[1], "{credits}" => (string)$args[2]])
+                        );
                     return true;
                 }
 
                 $sender->sendMessage($this->functions->getPrefix() . "§cPlayer not found§f!");
             return false;
             case "set":
-                if(!$sender->hasPermission("c20s-credits.set")) {
-                    $sender->sendMessage($this->getPermissionMessage());
-                    return false;
-                }
+                if(!$sender->checkForPermission($sender, "c20s-credits.set")) return false;
 
                 if(!isset($args[1]) || !isset($args[2])) {
                     $sender->sendMessage($this->functions->getPrefix() . "§cUsage: /credits set <player> <amount>");
@@ -141,17 +140,18 @@ class CreditsCommand extends Command
                 }
 
                 if($this->manager->setCredits($args[1], (int)$args[2])) {
-                    if($this->functions->getConfigValue("credits-set-issuer-broadcast")) $sender->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-set-issuer-message"), ["{player}" => $args[1], "{credits}" => (string)$args[2]]));
+                    if($this->functions->getConfigValue("credits-set-issuer-broadcast")) 
+                        $sender->sendMessage($this->functions->replace(
+                            $this->functions->getConfigValue("credits-set-issuer-message"), 
+                            ["{player}" => $args[1], "{credits}" => (string)$args[2]])
+                        );
                     return true;
                 }
 
                 $sender->sendMessage($this->functions->getPrefix() . "§cPlayer not found§f!");
             return false;
             case "reset":
-                if(!$sender->hasPermission("c20s-credits.reset")) {
-                    $sender->sendMessage($this->getPermissionMessage());
-                    return false;
-                }
+                if(!$sender->checkForPermission($sender, "c20s-credits.reset")) return false;
 
                 if(!isset($args[1])) {
                     $sender->sendMessage($this->functions->getPrefix() . "§cUsage: /credits reset <player>");
@@ -159,17 +159,18 @@ class CreditsCommand extends Command
                 }
 
                 if($this->manager->resetCredits($args[1])) {
-                    if($this->functions->getConfigValue("credits-reset-issuer-broadcast")) $sender->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-reset-issuer-message"), ["{player}" => $args[1]]));
+                    if($this->functions->getConfigValue("credits-reset-issuer-broadcast")) 
+                        $sender->sendMessage($this->functions->replace(
+                            $this->functions->getConfigValue("credits-reset-issuer-message"), 
+                            ["{player}" => $args[1]])
+                        );
                     return true;
                 }
 
                 $sender->sendMessage($this->functions->getPrefix() . "§cPlayer not found§f!");
             return false;
             case "reload":
-                if(!$sender->hasPermission("c20s-credits.reload")) {
-                    $sender->sendMessage($this->getPermissionMessage());
-                    return false;
-                }
+                if(!$sender->checkForPermission($sender, "c20s-credits.reload")) return false;
 
                 $this->main->reloadConfig();
                 $sender->sendMessage($this->functions->getPrefix() . "§aConfig reloaded§f!");

@@ -41,7 +41,8 @@ class Functions {
         return $this->getPrefix() . $string;
     }
     
-    public function checkIfPlayerExists(string $player) {
+    public function checkIfPlayerExists(string $player): bool
+    {
         if(file_exists($this->main->getDataFolder() . "players/$player.json")) return true;
         return false;
     }
@@ -50,5 +51,14 @@ class Functions {
         $config = new Config($this->main->getDataFolder() . "players/$player.json", Config::JSON);
         $config->set("credits", $dataValue);
         $config->save();
+    }
+
+    public function checkForPermission(Player $player, string $permission): bool
+    {
+        if(!$player->hasPermission($permission)) {
+            $player->sendMessage($this->getPermissionMessage());
+            return false;
+        }
+        return true;
     }
 }
