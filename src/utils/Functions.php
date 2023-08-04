@@ -28,7 +28,7 @@ class Functions {
      * @param string $player
      * @return Player
      */
-    function convertToPlayer(string $player): Player
+    function convertToPlayer(string $player): ?Player
     {
         return $this->main->getServer()->getPlayerByPrefix($player);
     }

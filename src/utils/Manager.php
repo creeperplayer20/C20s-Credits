@@ -31,7 +31,15 @@ class Manager
 
         $this->functions->setPlayerData($player, $this->getCredits($player) + $amount);
 
-        if($this->functions->convertToPlayer($player)->isOnline() && (bool)$this->functions->getConfigValue("credits-add-broadcast")) $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-add-message"), ["{player}" => $player, "{credits}" => (string)$amount]));
+        $playerObject = $this->functions->convertToPlayer($player);
+
+        if($playerObject == null) return true;
+
+        if($playerObject->isOnline() && (bool)$this->functions->getConfigValue("credits-add-broadcast")) 
+            $this->functions->convertToPlayer($player)->sendMessage(
+                $this->functions->replace($this->functions->getConfigValue("credits-add-message"), 
+                ["{player}" => $player, "{credits}" => (string)$amount])
+            );
         
         return true;
     }
@@ -41,7 +49,15 @@ class Manager
 
         $this->functions->setPlayerData($player, $this->getCredits($player) - $amount);
 
-        if($this->functions->convertToPlayer($player)->isOnline() && (bool)$this->functions->getConfigValue("credits-reduce-broadcast")) $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-reduce-message"), ["{player}" => $player, "{credits}" => (string)$amount]));
+        $playerObject = $this->functions->convertToPlayer($player);
+
+        if($playerObject == null) return true;
+
+        if($playerObject->isOnline() && (bool)$this->functions->getConfigValue("credits-reduce-broadcast")) 
+            $this->functions->convertToPlayer($player)->sendMessage(
+                $this->functions->replace($this->functions->getConfigValue("credits-reduce-message"), 
+                ["{player}" => $player, "{credits}" => (string)$amount])
+            );
 
         return true;
     }
@@ -51,7 +67,15 @@ class Manager
 
         $this->functions->setPlayerData($player, $amount);
 
-        if($this->functions->convertToPlayer($player)->isOnline() && (bool)$this->functions->getConfigValue("credits-set-broadcast")) $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-set-message"), ["{player}" => $player, "{credits}" => (string)$amount]));
+        $playerObject = $this->functions->convertToPlayer($player);
+
+        if($playerObject == null) return true;
+
+        if($playerObject->isOnline() && (bool)$this->functions->getConfigValue("credits-set-broadcast")) 
+            $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace(
+                $this->functions->getConfigValue("credits-set-message"), 
+                ["{player}" => $player, "{credits}" => (string)$amount])
+            );
 
         return true;
     }
@@ -61,7 +85,15 @@ class Manager
 
         $this->functions->setPlayerData($player, $this->functions->getConfigValue("default-credits"));
 
-        if($this->functions->convertToPlayer($player)->isOnline() && (bool)$this->functions->getConfigValue("credits-reset-broadcast")) $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-reset-message"), ["{player}" => $player]));
+        $playerObject = $this->functions->convertToPlayer($player);
+
+        if($playerObject == null) return true;
+
+        if($playerObject->isOnline() && (bool)$this->functions->getConfigValue("credits-reset-broadcast")) 
+            $this->functions->convertToPlayer($player)->sendMessage(
+                $this->functions->replace($this->functions->getConfigValue("credits-reset-message"), 
+                ["{player}" => $player])
+            );
 
         return true;
     }
