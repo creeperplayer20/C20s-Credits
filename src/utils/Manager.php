@@ -29,9 +29,7 @@ class Manager
     public function addCredits(string $player, int $amount) {
         if(!$this->functions->checkIfPlayerExists($player)) return false;
 
-        $config = new Config($this->main->getDataFolder() . "players/$player.json", Config::JSON);
-        $config->set("credits", $config->get("credits") + $amount);
-        $config->save();
+        $this->functions->setPlayerData($player, $this->getCredits($player) + $amount);
 
         if($this->functions->convertToPlayer($player)->isOnline() && (bool)$this->functions->getConfigValue("credits-add-broadcast")) $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-add-message"), ["{player}" => $player, "{credits}" => (string)$amount]));
         
@@ -41,9 +39,7 @@ class Manager
     public function reduceCredits(string $player, int $amount) {
         if(!$this->functions->checkIfPlayerExists($player)) return false;
 
-        $config = new Config($this->main->getDataFolder() . "players/$player.json", Config::JSON);
-        $config->set("credits", $config->get("credits") - $amount);
-        $config->save();
+        $this->functions->setPlayerData($player, $this->getCredits($player) - $amount);
 
         if($this->functions->convertToPlayer($player)->isOnline() && (bool)$this->functions->getConfigValue("credits-reduce-broadcast")) $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-reduce-message"), ["{player}" => $player, "{credits}" => (string)$amount]));
 
@@ -53,9 +49,7 @@ class Manager
     public function setCredits(string $player, int $amount) {
         if(!$this->functions->checkIfPlayerExists($player)) return false;
 
-        $config = new Config($this->main->getDataFolder() . "players/$player.json", Config::JSON);
-        $config->set("credits", $amount);
-        $config->save();
+        $this->functions->setPlayerData($player, $amount);
 
         if($this->functions->convertToPlayer($player)->isOnline() && (bool)$this->functions->getConfigValue("credits-set-broadcast")) $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-set-message"), ["{player}" => $player, "{credits}" => (string)$amount]));
 
@@ -65,9 +59,7 @@ class Manager
     public function resetCredits(string $player) {
         if(!$this->functions->checkIfPlayerExists($player)) return false;
 
-        $config = new Config($this->main->getDataFolder() . "players/$player.json", Config::JSON);
-        $config->set("credits", $this->functions->getConfigValue("default-credits"));
-        $config->save();
+        $this->functions->setPlayerData($player, $this->functions->getConfigValue("default-credits"));
 
         if($this->functions->convertToPlayer($player)->isOnline() && (bool)$this->functions->getConfigValue("credits-reset-broadcast")) $this->functions->convertToPlayer($player)->sendMessage($this->functions->replace($this->functions->getConfigValue("credits-reset-message"), ["{player}" => $player]));
 

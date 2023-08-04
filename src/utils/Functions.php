@@ -6,6 +6,7 @@ namespace creeperplayer20\credits\utils;
 
 use creeperplayer20\credits\Main;
 use pocketmine\player\Player;
+use pocketmine\utils\Config;
 
 class Functions {
     private $main;
@@ -43,5 +44,11 @@ class Functions {
     public function checkIfPlayerExists(string $player) {
         if(file_exists($this->main->getDataFolder() . "players/$player.json")) return true;
         return false;
+    }
+
+    public function setPlayerData(string $player, int $dataValue) {
+        $config = new Config($this->main->getDataFolder() . "players/$player.json", Config::JSON);
+        $config->set("credits", $dataValue);
+        $config->save();
     }
 }
